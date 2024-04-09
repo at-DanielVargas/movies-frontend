@@ -1,0 +1,30 @@
+.controls {
+  transition: opacity 150ms ease;
+  opacity: 0;
+  height: 100%;
+  top: 0 !important;
+  padding: 0 !important;
+  button {
+    display: block;
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-md) !important;
+    border-radius: 0;
+    border: none;
+    font-weight: 500;
+    height: 100%;
+    background-color: var(--mantine-color-black) !important;
+    color: var(--mantine-color-red-light-color);
+    @include hover {
+      color: darken(#7a3cff, 0.2) !important;
+      background-color: darken(#221f1f, 0.1) !important;
+    }
+  
+  }
+}
+
+.root {
+  &:hover {
+    .controls {
+      opacity: .7;
+    }
+  }
+}

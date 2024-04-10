@@ -23,11 +23,10 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v5
-        build-args: |
-          VITE_API_URL=${{ secrets.VITE_API_URL }}
         with:
           push: true
           tags: d4nilo/movies-frontend:latest
+          build-args: VITE_API_URL=${{ secrets.VITE_API_URL }}
   deploy:
     name: Deploy to Fly
     needs: docker

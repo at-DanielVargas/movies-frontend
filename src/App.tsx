@@ -1,41 +1,38 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "react-query";
-
-import HomeLayout from "./layouts/HomeLayout/HomeLayout";
-import MoviesPage from "./pages/Movies/Movies";
-import MovieDetailsPage from "./pages/MovieDetail/MovieDetail";
-import { MovieDetailsLoader } from "./pages/MovieDetail/MovieDetail.loader";
+import { Layouts } from "./components/layouts";
+import { Pages } from "./components/pages";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomeLayout />,
+    element: <Layouts.Home />,
     children: [
       {
         path: "/",
-        element: <MoviesPage />,
+        element: <Pages.Movies />,
       },
       {
         path: "movies",
-        element: <MoviesPage />,
+        element: <Pages.Movies />,
       },
       {
         path: "tv-shows",
-        element: <div>TV Shows</div>,
+        element: <Pages.TvShows />,
       },
       {
         path: "recently-added",
-        element: <div>Recently Added</div>,
+        element: <Pages.RecentlyAdded />,
       },
       {
         path: "my-list",
-        element: <div>My List</div>,
+        element: <Pages.MyList />,
       },
       {
         path: "movie/:movieId",
-        element: <MovieDetailsPage />,
+        element: <Pages.MovieDetail />,
       },
     ],
   },

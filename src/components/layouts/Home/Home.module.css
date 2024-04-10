@@ -1,0 +1,24 @@
+.control {
+  display: block;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md) !important;
+  border-radius: var(--mantine-radius-md);
+  font-weight: 500;
+  
+  @mixin hover {
+    color: darken(#7a3cff, 0.2) !important;
+    background-color: darken(#221f1f, 0.1) !important;
+  }
+}
+
+.header {
+  background-color: #000 !important;
+  border-bottom: none !important;
+  display: flex;
+}
+
+
+
+.main {
+  background-color: #000 !important;
+  color: #fff !important;
+}

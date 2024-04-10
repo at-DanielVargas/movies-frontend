@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import { colorsTuple, createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
+import { StrictMode } from "react";
 
 const theme = createTheme({
   primaryColor: "red",
@@ -12,9 +13,9 @@ const theme = createTheme({
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  // <React.StrictMode>
-  <MantineProvider theme={theme}>
-    <App />
-  </MantineProvider>
-  // </React.StrictMode>
+  <StrictMode>
+    <MantineProvider theme={theme}>
+      <App />
+    </MantineProvider>
+  </StrictMode>
 );

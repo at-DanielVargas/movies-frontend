@@ -7,9 +7,9 @@ import {
   useMantineTheme,
   Rating,
 } from "@mantine/core";
-import { IconMessageCircle, IconStar } from "@tabler/icons-react";
+import { IconStar } from "@tabler/icons-react";
 import classes from "./Card.module.css";
-import { Link, Path } from "react-router-dom";
+import { Path, useNavigate } from "react-router-dom";
 import { useInViewport } from "@mantine/hooks";
 
 export interface CardProps {
@@ -31,14 +31,14 @@ function Card({
 }: CardProps) {
   const theme = useMantineTheme();
   const { ref, inViewport } = useInViewport();
+  const navigate = useNavigate();
   return (
     <MantineCard
       p="lg"
       shadow="lg"
       className={classes.card}
       radius="md"
-      component={Link}
-      to={to}
+      onClick={() => navigate(to)}
     >
       <div
         ref={ref}
@@ -72,16 +72,6 @@ function Card({
               />
               <Text size="sm" className={classes.bodyText}>
                 {votes}
-              </Text>
-            </Center>
-            <Center>
-              <IconMessageCircle
-                style={{ width: rem(16), height: rem(16) }}
-                stroke={1.5}
-                color={theme.colors.dark[2]}
-              />
-              <Text size="sm" className={classes.bodyText}>
-                5
               </Text>
             </Center>
           </Group>

@@ -20,8 +20,8 @@ function Home() {
         <Header toggle={toggle} opened={opened} />
       </AppShell.Header>
 
-      <AppShell.Navbar py="md" px={4}>
-        <HeaderButtons />
+      <AppShell.Navbar py="md" px={4} className={classes.navbar}>
+        <HeaderButtons onButtonClicked={toggle} />
       </AppShell.Navbar>
 
       <AppShell.Main className={classes.main}>

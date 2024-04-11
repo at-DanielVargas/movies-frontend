@@ -14,11 +14,11 @@ function CategoriesGrid() {
   if (error) return <div>Error:</div>;
 
   return (
-    <div>
+    <>
       {genres?.map((genre: any) => (
         <GenresCarousel key={genre.id} genre={genre} />
       ))}
-    </div>
+    </>
   );
 }
 

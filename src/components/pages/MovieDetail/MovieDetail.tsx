@@ -43,7 +43,7 @@ function MovieDetail() {
   }
 
   return (
-    <Box p={10}>
+    <>
       <Box pos="relative" h={480}>
         <Organisms.BackgroundVideo
           placeholderImage={details.backdrop_path}
@@ -82,53 +82,56 @@ function MovieDetail() {
           zIndex={1}
         />
       </Box>
-
-      <Box p="xl" pt={0}>
-        <Grid>
-          <Grid.Col span={7}>
-            <Box>
-              <Text size="xl" fw={700} mt="lg">
-                Descipcion
-              </Text>
-              <Text>{details?.overview}</Text>
-            </Box>
-          </Grid.Col>
-          <Grid.Col span={5}>
-            <Text size="xl" fw={700} mt="lg">
-              Generos
-            </Text>
-            <Group mt="sm">
-              {details?.genres?.map((genre: any) => (
-                <Text key={genre.id} variant="outline" c="gray">
-                  {genre.name}
+      <Box p={10}>
+        <Box p="xl" pt={0}>
+          <Grid>
+            <Grid.Col span={{ md: 7 }} order={{ base: 2, md: 1 }}>
+              <Box>
+                <Text size="xl" fw={700} mt="lg">
+                  Descipcion
                 </Text>
-              ))}
-            </Group>
-            <Text size="xl" fw={700} mt="lg">
-              Director
-            </Text>
-            <Text variant="outline" c="gray">{directorName}</Text>
-          </Grid.Col>
-          <Grid.Col span={12}>
-            <Box>
-              <Molecules.Carousel
-                title="Reparto"
-                elements={cast}
-                renderElement={(item, index) => (
-                  <Molecules.ActorCard
-                    key={index}
-                    actorName={item.name}
-                    actorCharacter={item.character}
-                    actorImage={item.profile_path}
-                  />
-                )}
-              />
-            </Box>
-          </Grid.Col>
-        </Grid>
+                <Text>{details?.overview}</Text>
+              </Box>
+            </Grid.Col>
+            <Grid.Col span={{ md: 5 }} order={{ base: 1, md: 2 }}>
+              <Text size="xl" fw={700} mt="lg">
+                Generos
+              </Text>
+              <Group mt="sm">
+                {details?.genres?.map((genre: any) => (
+                  <Text key={genre.id} variant="outline" c="gray">
+                    {genre.name}
+                  </Text>
+                ))}
+              </Group>
+              <Text size="xl" fw={700} mt="lg">
+                Director
+              </Text>
+              <Text variant="outline" c="gray">
+                {directorName}
+              </Text>
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <Box>
+                <Molecules.Carousel
+                  title="Reparto"
+                  elements={cast}
+                  renderElement={(item, index) => (
+                    <Molecules.ActorCard
+                      key={index}
+                      actorName={item.name}
+                      actorCharacter={item.character}
+                      actorImage={item.profile_path}
+                    />
+                  )}
+                />
+              </Box>
+            </Grid.Col>
+          </Grid>
+        </Box>
+        <Organisms.RelatedCarousel movieId={Number(movieId)} />
       </Box>
-      <Organisms.RelatedCarousel movieId={Number(movieId)} />
-    </Box>
+    </>
   );
 }
 

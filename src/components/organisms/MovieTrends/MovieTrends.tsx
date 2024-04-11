@@ -58,7 +58,7 @@ function MovieTrends() {
 
             <div className={classes.content}>
               <Grid>
-                <Grid.Col span={6}>
+                <Grid.Col span={{ md: 6 }}>
                   <Text className={classes.title}>{movie?.title}</Text>
                   <Text c="white" mb={10} visibleFrom="md">
                     {movie?.overview}
@@ -72,10 +72,7 @@ function MovieTrends() {
                       color="yellow"
                     />
                   </Group>
-                  <Button
-                    className={classes.action}
-                    color="red"
-                  >
+                  <Button className={classes.action} color="red">
                     Agregar a mi lista
                   </Button>
                 </Grid.Col>

@@ -1,31 +1,40 @@
-import { Autocomplete, AutocompleteProps, Group, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { Autocomplete, AutocompleteProps, Stack } from "@mantine/core";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { IconSearch } from "@tabler/icons-react";
+import classes from "./SearchBar.module.css";
 
 function SeachBar() {
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isEnter, setIsEnter] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Record<string, any>>({});
-  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleOpen = () => setIsOpen(!isOpen);
 
   const renderAutocompleteOption: AutocompleteProps["renderOption"] = ({
     option,
   }) => {
     return (
-      <Group gap="sm">
-        <div>
-          <Text size="sm">{option.value}</Text>
-          <Text size="xs" opacity={0.5}>
-            {searchResults[option.value].title}
-          </Text>
-        </div>
-      </Group>
+      <Stack
+        style={{
+          gap: 3,
+        }}
+      >
+        <b>{searchResults[option.value].title}</b>
+        <small>{searchResults[option.value].release_date}</small>
+      </Stack>
     );
   };
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {
-        const searchUrl = `http://localhost:3000/movies/search?query=${searchTerm}`;
+        const searchUrl = `${
+          import.meta.env.VITE_API_URL
+        }/movies/search?query=${searchTerm}`;
         fetch(searchUrl)
           .then((response) => response.json())
           .then((data) => {
@@ -40,25 +49,63 @@ function SeachBar() {
           .catch((error) => console.log(error));
       }
     }, 900);
-
+    if (isEnter) {
+      setIsEnter(false);
+      setSearchTerm("");
+      inputRef?.current?.blur();
+    }
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+  }, [searchTerm, setSearchResults, isEnter, setIsEnter, inputRef]);
+
+  const handleReset = (callback: () => void) => {
+    setSearchTerm("");
+    setIsOpen(false);
+    setSearchResults({});
+    callback();
+  };
 
   const goToOption = (option: string) => {
-    navigate(`/movie/${searchResults[option].id}`);
+    setIsEnter(true);
+    handleReset(() => {
+      navigate(`/movie/${searchResults[option].id}`);
+    });
   };
 
   return (
-    <Autocomplete
-      onOptionSubmit={goToOption}
-      value={searchTerm}
-      onChange={setSearchTerm}
-      renderOption={renderAutocompleteOption}
-      variant="filled"
-      radius="xl"
-      placeholder="Search for movies"
-      data={Object.keys(searchResults)}
-    />
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <motion.div
+        initial={false}
+        animate={{ width: isOpen ? "100%" : "35px" }}
+        transition={{ duration: 0.5 }}
+        style={{ width: "100%", display: "flex", alignItems: "center" }}
+      >
+        <Autocomplete
+          ref={inputRef}
+          classNames={{
+            input: `${classes.input} ${isOpen ? classes.isOpen : ""}`,
+          }}
+          onOptionSubmit={goToOption}
+          value={searchTerm}
+          onChange={setSearchTerm}
+          renderOption={renderAutocompleteOption}
+          radius="sm"
+          placeholder="Buscar peliculas..."
+          data={Object.keys(searchResults)}
+          variant="unstyled"
+          rightSection={
+            <button onClick={toggleOpen} className={classes.searchButton}>
+              <IconSearch size={16} color="white" />
+            </button>
+          }
+        />
+      </motion.div>
+    </div>
   );
 }
 

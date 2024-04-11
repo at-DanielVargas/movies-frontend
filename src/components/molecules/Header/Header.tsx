@@ -1,60 +1,69 @@
-import { Burger, Button, Group } from "@mantine/core";
+import { Burger, Button, Flex, Group } from "@mantine/core";
 import SeachBar from "../SearchBar/SearchBar";
 import { useNavigate } from "react-router-dom";
 import Logo from "../Logo/Logo";
+import classes from "./Header.module.css";
 
 export interface HeaderProps {
   toggle: () => void;
   opened: boolean;
 }
 
-export const HeaderButtons = () => {
+export const HeaderButtons = ({
+  onButtonClicked,
+}: {
+  onButtonClicked: () => void;
+}) => {
   const navigate = useNavigate();
+  const handleButtonClicked = (to: string) => {
+    navigate(to);
+    onButtonClicked();
+  };
   return (
     <>
       <Button
         variant="transparent"
         color="red"
         radius="lg"
-        onClick={() => navigate("/")}
+        onClick={() => handleButtonClicked("/")}
       >
-        Home
+        Inicio
       </Button>
 
       <Button
         variant="transparent"
         color="red"
         radius="lg"
-        onClick={() => navigate("/movies")}
+        onClick={() => handleButtonClicked("/movies")}
       >
-        Movies
+        Peliculas
       </Button>
 
       <Button
         variant="transparent"
         color="red"
         radius="lg"
-        onClick={() => navigate("/tv-shows")}
+        onClick={() => handleButtonClicked("/tv-shows")}
       >
-        TV Shows
+        Television
       </Button>
 
       <Button
         variant="transparent"
         color="red"
         radius="lg"
-        onClick={() => navigate("/recently-added")}
+        onClick={() => handleButtonClicked("/recently-added")}
       >
-        Recently Added
+        Agregado Recientemente
       </Button>
 
       <Button
         variant="transparent"
         color="red"
         radius="lg"
-        onClick={() => navigate("/my-list")}
+        onClick={() => handleButtonClicked("/my-list")}
       >
-        My List
+        Mi lista
       </Button>
     </>
   );
@@ -62,22 +71,27 @@ export const HeaderButtons = () => {
 
 function Header({ toggle, opened }: HeaderProps) {
   return (
-    <Group h="100%" w="100%" px="md">
-      <Burger
-        opened={opened}
-        onClick={toggle}
-        hiddenFrom="sm"
-        size="sm"
-        color="red"
-      />
-      <Logo />
-      <Group justify="space-between">
-        <SeachBar />
-        <Group ml="xl" gap={0} visibleFrom="sm">
-          <HeaderButtons />
+    <header className={classes.header}>
+      <div className={classes.inner}>
+        <Flex align="center">
+          <Burger
+            color="red"
+            opened={opened}
+            onClick={toggle}
+            size="sm"
+            hiddenFrom="sm"
+          />
+          <Logo />
+        </Flex>
+
+        <Group>
+          <Group ml={50} gap={5} className={classes.links} visibleFrom="sm">
+            <HeaderButtons onButtonClicked={toggle} />
+          </Group>
+          <SeachBar />
         </Group>
-      </Group>
-    </Group>
+      </div>
+    </header>
   );
 }
 
